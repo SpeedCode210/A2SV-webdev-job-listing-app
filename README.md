@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# A2SV Job Listing App
 
-## Getting Started
+Small job-listing web app built with Next.js, React and Tailwind CSS. Data is loaded from a local JSON file (data/jobs.json). The app lists job offers and provides a details view showing full descriptions.
 
-First, run the development server:
+## Features
+- List jobs (title, company, location, tags)
+- Job details page with full description and meta
+- Client-side navigation with Next.js
+- Tailwind CSS for styling
+- Simple JSON-backed data source for development
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech
+- Next.js (React)
+- Tailwind CSS
+- Plain JSON for seed data
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Quickstart
+Prerequisites: Node.js (16+), npm or yarn.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone
+    - git clone https://github.com/SpeedCode210/A2SV-webdev-job-listing-app.git
+    - cd A2SV-webdev-job-listing-app
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Install
+    - npm install
+    - or
+    - yarn
 
-## Learn More
+3. Run dev server
+    - npm run dev
+    - open http://localhost:3000
 
-To learn more about Next.js, take a look at the following resources:
+4. Build & start
+    - npm run build
+    - npm start
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tasks Progress (Following the webdev track roadmap)
+- [x] Task 6
+- [] Task 7
+- [] Task 8
+- [] Task 9
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Screenshots
+### Task 6
+![](screenshots/image.png)
+![](screenshots/image-1.png)
