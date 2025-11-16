@@ -36,9 +36,9 @@ Prerequisites: Node.js (16+), npm or yarn.
 
 ## Tasks Progress (Following the webdev track roadmap)
 - [x] Task 6
-- [] Task 7
-- [] Task 8
-- [] Task 9
+- [ ] Task 7
+- [ ] Task 8
+- [ ] Task 9
 
 ## Screenshots
 ### Task 6
