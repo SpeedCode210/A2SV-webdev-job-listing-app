@@ -1,13 +1,28 @@
 type Props = { id: number };
+import BackBtn from '@/app/_components/BackBtn';
 import { InversedTag, NeutralTag } from '@/app/_components/Tag';
-import jobOffers from '../../_data/data.json';
-import Link from 'next/link';
+import { JobOffer } from '@/app/_lib/JobOffer';
+import { notFound } from 'next/navigation';
 
 
 export default async function Description({ params }: { params: Promise<Props> }) {
 
   const { id } = await params;
-  const job_offer = jobOffers.filter(j => j.id == id)[0];
+  const req = await fetch(`https://akil-backend.onrender.com/opportunities/${id}`, { cache: 'force-cache', next: { revalidate: 3600 } })
+
+  if (req.status == 404) {
+    notFound();
+  }
+
+  if (req.status != 200) {
+    throw new Error(`Failed fetching data from the server (Error ${req.status} : ${req.statusText}).`);
+  }
+
+  const result: { data: JobOffer, message: string, success: boolean } = (await req.json());
+
+  if (!result.success || result.data.id == '000000000000000000000000') notFound();
+
+  const jobOffer = result.data
 
   function displayDate(date: string): string {
     const dateObject = new Date(date);
@@ -17,14 +32,9 @@ export default async function Description({ params }: { params: Promise<Props> }
 
   return (
     <div className='mx-10 xl:w-295 xl:ml-auto xl:mr-auto mb-20'>
-      <Link className='mt-12 flex items-center text-gray-600' href='/'>
-        <svg className='inline h-5' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <path className='fill-gray-600' d="M16.62 2.99c-.49-.49-1.28-.49-1.77 0L6.54 11.3c-.39.39-.39 1.02 0 1.41l8.31 8.31c.49.49 1.28.49 1.77 0s.49-1.28 0-1.77L9.38 12l7.25-7.25c.48-.48.48-1.28-.01-1.76z"></path>
-        </svg>
-        <div>Back</div>
-        </Link>
-      <h1 className='mt-5 text-4xl font-black text-slate-900 mb-2'>{job_offer.job_title}</h1>
-      <p className='mt-2 text-1xl font-black text-slate-400 mb-2'>{job_offer.organization}</p>
+      <BackBtn></BackBtn>
+      <h1 className='mt-5 text-4xl font-black text-slate-900 mb-2'>{jobOffer.title}</h1>
+      <p className='mt-2 text-1xl font-black text-slate-400 mb-2'>{jobOffer.orgName}</p>
       <div className='xl:grid grid-cols-12'>
         <div className='col-start-9 col-span-4'>
           <h2 className='mt-7 text-3xl font-black text-slate-800 mb-4'>About</h2>
@@ -38,7 +48,7 @@ export default async function Description({ params }: { params: Promise<Props> }
               </div>
               <p className='ml-3'>
                 <span className='text-slate-500 block'>Posted On</span>
-                <span className='text-slate-900 block'>{displayDate(job_offer.posted_on)}</span>
+                <span className='text-slate-900 block'>{displayDate(jobOffer.datePosted)}</span>
               </p>
             </div>
 
@@ -50,7 +60,7 @@ export default async function Description({ params }: { params: Promise<Props> }
               </div>
               <p className='ml-3'>
                 <span className='text-slate-500 block'>Deadline</span>
-                <span className='text-slate-900 block'>{displayDate(job_offer.deadline)}</span>
+                <span className='text-slate-900 block'>{displayDate(jobOffer.deadline)}</span>
               </p>
             </div>
 
@@ -63,8 +73,8 @@ export default async function Description({ params }: { params: Promise<Props> }
 
               </div>
               <p className='ml-3'>
-                <span className='text-slate-500 block'>Location</span>
-                <span className='text-slate-900 block'>{job_offer.location}</span>
+                <span className='text-slate-500 block'>Location{jobOffer.location.length == 1 ? "" : "s"}</span>
+                <span className='text-slate-900 block'>{jobOffer.location.join(', ')}</span>
               </p>
             </div>
 
@@ -77,7 +87,7 @@ export default async function Description({ params }: { params: Promise<Props> }
               </div>
               <p className='ml-3'>
                 <span className='text-slate-500 block'>Start Date</span>
-                <span className='text-slate-900 block'>{displayDate(job_offer.start_date)}</span>
+                <span className='text-slate-900 block'>{displayDate(jobOffer.startDate)}</span>
               </p>
             </div>
 
@@ -90,7 +100,7 @@ export default async function Description({ params }: { params: Promise<Props> }
               </div>
               <p className='ml-3'>
                 <span className='text-slate-500 block'>End Date</span>
-                <span className='text-slate-900 block'>{displayDate(job_offer.end_date)}</span>
+                <span className='text-slate-900 block'>{displayDate(jobOffer.endDate)}</span>
               </p>
             </div>
 
@@ -98,23 +108,23 @@ export default async function Description({ params }: { params: Promise<Props> }
           <hr className='text-gray-200 mt-4' />
           <h2 className='mt-7 text-3xl font-black text-slate-800 mb-4'>Categories</h2>
           <div>
-            {job_offer.tags.map((tag) => {
+            {jobOffer.categories.map((tag) => {
               return <InversedTag key={`${id}.${tag}`} name={tag} />;
             })}
           </div>
           <hr className='text-gray-200 mt-4' />
           <h2 className='mt-7 text-3xl font-black text-slate-800 mb-4'>Required Skills</h2>
-          {job_offer.required_skills.map((tag) => {
+          {jobOffer.requiredSkills.map((tag) => {
             return <NeutralTag key={`${id}.${tag}`} name={tag} />;
           })}
           <hr className='text-gray-200 mt-4 xl:hidden' />
         </div>
-        <div className='col-span-8 col-start-1 row-end-1'>
+        <div className='col-span-8 col-start-1 row-end-1  pr-4'>
           <h2 className='mt-10 text-3xl font-black text-slate-800 mb-4'>Description</h2>
-          <p className='text-slate-900'>{job_offer.description}</p>
+          <p className='text-slate-900'>{jobOffer.description}</p>
           <h2 className='mt-10 text-3xl font-black text-slate-800 mb-4'>Responsibilities</h2>
           <ul>
-            {job_offer.responsibilities.map((r, i) => {
+            {jobOffer.responsibilities.split('\n').map((r, i) => {
               return (<li className='mb-3 flex items-center text-slate-900' key={`responsibility-${i}`}>
                 <svg
                   className='inline-block h-5 w-5 mr-2'
@@ -140,10 +150,8 @@ export default async function Description({ params }: { params: Promise<Props> }
             })}
           </ul>
           <h2 className='mt-10 text-3xl font-black text-slate-800 mb-4'>Ideal Candidate we want</h2>
-          <ul className='list-disc pl-8'>
-            {job_offer.qualities_wanted.map((r, i) => {
-              return <li key={`quality-${i}`} className='text-slate-800'><b>{r[0]}</b> {r[1] && r[1].length > 0 && ' : ' + r[1]}</li>;
-            })}
+          <ul className='list-disc'>
+            {jobOffer.idealCandidate}
           </ul>
           <h2 className='mt-10 text-3xl font-black text-slate-800 mb-4'>When and where ?</h2>
           <div className='flex items-center'>
@@ -153,7 +161,7 @@ export default async function Description({ params }: { params: Promise<Props> }
                 <path fillRule="evenodd" clipRule="evenodd" d="M8.49951 19C7.30104 19 1 13.8984 1 8.56329C1 4.38664 4.3571 1 8.49951 1C12.6419 1 16 4.38664 16 8.56329C16 13.8984 9.69799 19 8.49951 19Z" stroke="#26A4FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <p className='ml-3 text-slate-900'>{job_offer.onboarding_location}</p>
+            <p className='ml-3 text-slate-900'>{jobOffer.whenAndWhere}</p>
           </div>
         </div>
       </div>

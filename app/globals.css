@@ -1,2 +1,31 @@
 @import "tailwindcss";
 
+/* Define the gradient */
+.skeleton-loader {
+  background-color: #e5e7eb; /* Tailwind's gray-200 */
+}
+
+/* Shimmering gradient */
+.skeleton-loader .animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+}
+
+/* Apply the animation */
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+}
+
+/* Define the animation */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

@@ -1,19 +1,32 @@
 
 export interface JobOffer {
-    id: number,
-    job_title: string,
-    organization: string,
-    location: string,
-    description: string,
-    in_person: boolean,
-    logo_link: string,
-    tags: string[],
-    required_skills: string[],
-    responsibilities: string[],
-    qualities_wanted: string[][],
-    onboarding_location : string,
-    posted_on: string,
-    deadline: string,
-    start_date: string,
-    end_date: string,
+    id: string;
+  title: string;
+  description: string;
+  responsibilities: string;
+  requirements: string;
+  idealCandidate: string;
+  categories: string[];
+  opType: 'inPerson' | string; 
+  startDate: string; 
+  endDate: string; 
+  deadline: string; 
+  location: string[];
+  requiredSkills: string[];
+  whenAndWhere: string;
+  orgID: string;
+  datePosted: string; 
+  status: 'open' | string; 
+  applicantsCount: number;
+  viewsCount: number;
+  orgName: string;
+  logoUrl: string; 
+  isBookmarked: boolean;
+  isRolling: boolean;
+  createdAt: string; 
+  updatedAt: string; 
+  orgPrimaryPhone: string;
+  orgEmail: string;
+  average_rating: number;
+  total_reviews: number;
 };

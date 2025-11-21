@@ -1,10 +1,16 @@
 import { Card } from './_components/Card';
-import jobOffers from './_data/data.json';
 import { JobOffer } from './_lib/JobOffer';
 
-const offers : JobOffer[] = jobOffers;
 
-export default function Home() {
+export default async function Home() {
+  const req = await fetch('https://akil-backend.onrender.com/opportunities/search', { cache: 'force-cache', next: { revalidate: 3600 } })
+
+  if (req.status != 200) {
+    throw new Error(`Failed fetching data from the server (Error ${req.status} : ${req.statusText}).`);
+  }
+
+  const offers: JobOffer[] = (await req.json()).data;
+
   return (
     <div className='mx-10 xl:w-295 xl:ml-auto xl:mr-auto'>
       <div className='flex justify-between m-5 mt-10 items-center'>
