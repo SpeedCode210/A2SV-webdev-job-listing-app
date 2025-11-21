@@ -45,3 +45,7 @@ Prerequisites: Node.js (16+), npm or yarn.
 ### Task 6
 ![](screenshots/image.png)
 ![](screenshots/image-1.png)
+
+### Task 7
+![](screenshots/image-2.png)
+![](screenshots/image-3.png)
