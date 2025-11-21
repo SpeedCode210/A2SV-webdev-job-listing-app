@@ -7,7 +7,8 @@ Small job-listing web app built with Next.js, React and Tailwind CSS. Data is lo
 - Job details page with full description and meta
 - Client-side navigation with Next.js
 - Tailwind CSS for styling
-- Simple JSON-backed data source for development
+- Data retrieved from an API
+- Smooth loading of pages
 
 ## Tech
 - Next.js (React)
@@ -36,7 +37,7 @@ Prerequisites: Node.js (16+), npm or yarn.
 
 ## Tasks Progress (Following the webdev track roadmap)
 - [x] Task 6
-- [ ] Task 7
+- [x] Task 7
 - [ ] Task 8
 - [ ] Task 9
 
